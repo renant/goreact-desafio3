@@ -1,3 +1,4 @@
+import dotenv from "dotenv";
 import React, { Fragment } from "react";
 import "./config/ReactotronConfig";
 
@@ -9,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import { Provider } from "react-redux";
 import store from "./store";
+
+dotenv.config();
 
 const App = () => (
   <Provider store={store}>
