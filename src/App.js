@@ -1,13 +1,15 @@
-import React, { Component } from "react";
+import React, { Fragment } from "react";
 
-// import { Container } from './styles';
+import Routes from "./routes";
 
-export default class src extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Teste</h1>
-      </div>
-    );
-  }
-}
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const App = () => (
+  <Fragment>
+    <Routes />
+    <ToastContainer autoClose={5000} />
+  </Fragment>
+);
+
+export default App;
