@@ -4,6 +4,9 @@ import MapGL, { Marker } from "react-map-gl";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
+import { Creators as ModalActions } from "../../store/ducks/modal";
+
+import { ImageProfile } from "./style";
 
 class Map extends Component {
   state = {
@@ -36,6 +39,13 @@ class Map extends Component {
     });
   };
 
+  handleShowAddModal = async e => {
+    const [longitude, latitude] = e.lngLat;
+    const { showModal } = this.props;
+
+    await showModal({ latitude, longitude });
+  };
+
   render() {
     const { viewport } = this.state;
     const { users } = this.props;
@@ -43,6 +53,7 @@ class Map extends Component {
     return (
       <MapGL
         {...viewport}
+        onClick={this.handleShowAddModal}
         mapStyle="mapbox://styles/mapbox/light-v10"
         mapboxApiAccessToken={process.env.MAPBOX_ACCESS_TOKEN}
         onViewportChange={viewport => this.setState({ viewport })}
@@ -53,7 +64,10 @@ class Map extends Component {
             longitude={user.cordinates.longitude}
             key={user.id}
           >
-            <p>{user.name}</p>
+            <ImageProfile
+              alt={`${user.name} Profile Image`}
+              src={user.avatar}
+            />
           </Marker>
         ))}
       </MapGL>
@@ -65,4 +79,10 @@ const mapStateToProps = state => ({
   users: state.users
 });
 
-export default connect(mapStateToProps)(Map);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(ModalActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Map);
